@@ -37,10 +37,20 @@ function EmptyState({ icon, title, subtitle }) {
 }
 
 function MessageBubble({ message, isMine }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(message.text)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1600)
+    } catch {}
+  }
+
   return (
     <div className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
       <div
-        className={`max-w-[75%] rounded-2xl px-4 py-2.5 shadow-sm ${
+        className={`max-w-[75%] rounded-2xl px-4 py-2.5 shadow-sm transition-all hover:shadow-md ${
           isMine
             ? 'rounded-br-md bg-brand-600 text-white'
             : 'rounded-bl-md bg-white text-text-primary border border-border'
@@ -53,6 +63,31 @@ function MessageBubble({ message, isMine }) {
           <time>{formatTime(message.sentAt)}</time>
         </div>
         <p className="m-0 text-sm leading-relaxed">{message.text}</p>
+        <button
+          onClick={handleCopy}
+          className={`mt-1.5 flex items-center gap-1 rounded px-1.5 py-0.5 text-xs transition-all ${
+            isMine
+              ? 'text-blue-100 hover:text-white hover:bg-white/10'
+              : 'text-text-muted hover:text-text-primary hover:bg-slate-100'
+          }`}
+          title="Copy message"
+        >
+          {copied ? (
+            <>
+              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Copied</span>
+            </>
+          ) : (
+            <>
+              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              <span>Copy</span>
+            </>
+          )}
+        </button>
       </div>
     </div>
   )
@@ -128,7 +163,7 @@ function App() {
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-tight text-text-primary">messageSync</h1>
-            <p className="text-xs text-text-muted">Ephemeral chat &middot; Firebase Realtime</p>
+            <p className="text-xs text-text-muted">C&C</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
