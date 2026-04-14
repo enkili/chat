@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(www.alibabacloud.com)",
+      "Bash(npm run *)"
+    ]
+  },
+  "$version": 3
+}
