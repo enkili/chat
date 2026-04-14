@@ -1,0 +1,27 @@
+{
+  "rules": {
+    "rooms": {
+      "$roomId": {
+        ".read": true,
+        ".write": true,
+        "state": {
+          ".validate": "newData.hasChildren(['currentSessionKey', 'updatedAt'])"
+        },
+        "sessions": {
+          "$sessionKey": {
+            "participants": {
+              "$participantId": {
+                ".validate": "newData.hasChildren(['displayName', 'joinedAt'])"
+              }
+            },
+            "messages": {
+              "$messageId": {
+                ".validate": "newData.hasChildren(['displayName', 'senderId', 'text', 'sentAt']) && newData.child('text').isString() && newData.child('text').val().length <= 500"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
