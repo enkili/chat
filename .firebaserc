@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "demo-messagesync",
+    "default": "aichatbox-3a719",
     "production": "aichatbox-3a719"
   }
 }
